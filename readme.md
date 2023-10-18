@@ -49,37 +49,35 @@ python main.py
 
 ## TODO
 
-TODO
 
 This is very much a work in progress, and I have plans to add the following features in the future:
 
-**Placeholder Text:**
+1. **Placeholder Text:**
 Add grey placeholder text in empty fields.
 
-**Invalid URL Handling:**
+2. **Invalid URL Handling:**
 Catch errors from yt-dlp and display error message for invalid URLs.
 
-**Unit Tests:**
+3. **Unit Tests:**
 Write unit tests to ensure the core functionality works as expected.
 
-**Executable Creation:**
+4. **Executable Creation:**
 Create executables for Windows and Mac.
 
-**Design Improvements:**
+5. **Design Improvements:**
 Make UI design improvements.
 
-**Logging:**
+6. **Logging:**
 Implement logging to record events, transactions, or errors that may occur.
 
-**Configurations:**
+7. **Configurations:**
 Save user preferences in a configuration file.
 
-**Error Handling for Network Issues:**
+8. **Error Handling for Network Issues:**
 Implement proper error handling for network-related issues.
 
-**Automated Builds and Testing:**
+9. **Automated Builds and Testing:**
 Set up a CI/CD pipeline for automated builds and testing.
-
 
 If you wish to contribute, please feel free to do so.
 
