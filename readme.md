@@ -35,23 +35,17 @@ python main.py
 
 ## Usage
 
-1. 
-Enter the YouTube URL you wish to download.
-2. (Optional) 
-Specify an output folder. By default, media will be downloaded to the `./output` folder.
-3. 
-Choose whether you want to download audio or video.
-4. 
-Select the desired media format.
-5. (Optional) 
-Rename the output file.
-6. (Optional) 
-Set start and end times if you wish to download a specific segment of the video or audio. 
-If you don't specify start and end times, it will download the entire video. 
-If only a start time is specified, it will download from the start time until the end. 
-If only an end time is specified, it will download from the beginning until the specified end time.
-7. 
-Click the "Download" button.
+1. Enter the YouTube URL you wish to download.
+2. (Optional) Specify an output folder. By default, media will be downloaded to the `./output` folder.
+3. Choose whether you want to download audio or video.
+4. Select the desired media format.
+5. (Optional) Rename the output file.
+6. (Optional) Set start and end times if you wish to download a specific segment of the video or audio. 
+   - If you don't specify start and end times, it will download the entire video. 
+   - If only a start time is specified, it will download from the start time until the end. 
+   - If only an end time is specified, it will download from the beginning until the specified end time.
+7. Click the "Download" button.
+
 
 ## TODO
 
@@ -59,31 +53,31 @@ TODO
 
 This is very much a work in progress, and I have plans to add the following features in the future:
 
-Placeholder Text:
+**Placeholder Text:**
 Add grey placeholder text in empty fields.
 
-Invalid URL Handling:
+**Invalid URL Handling:**
 Catch errors from yt-dlp and display error message for invalid URLs.
 
-Unit Tests:
+**Unit Tests:**
 Write unit tests to ensure the core functionality works as expected.
 
-Executable Creation:
+**Executable Creation:**
 Create executables for Windows and Mac.
 
-Design Improvements:
+**Design Improvements:**
 Make UI design improvements.
 
-Logging:
+**Logging:**
 Implement logging to record events, transactions, or errors that may occur.
 
-Configurations:
+**Configurations:**
 Save user preferences in a configuration file.
 
-Error Handling for Network Issues:
+**Error Handling for Network Issues:**
 Implement proper error handling for network-related issues.
 
-Automated Builds and Testing:
+**Automated Builds and Testing:**
 Set up a CI/CD pipeline for automated builds and testing.
 
 
