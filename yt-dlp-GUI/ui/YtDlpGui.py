@@ -107,10 +107,6 @@ class YtDlpGui(QWidget):
         if folder:
             self.output_path_input.setText(folder)
 
-    def time_to_ms(self, time_str):
-        h, m, s = map(int, time_str.split(':'))
-        return (h * 3600 + m * 60 + s) * 1000
-
 
     def start_download(self):
         url = self.url_input.text()
@@ -120,7 +116,6 @@ class YtDlpGui(QWidget):
         output_name = self.name_input.text() or '%(title)s'  # Use the provided name or the video title
         output_folder = self.output_path_input.text()
         output_path = f'{output_folder}/{output_name}.%(ext)s'
-
         # Determine the output format based on the selected radio button
         output_name = "%(title)s.%(ext)s"  # Default to the video's title
         if file_name:  # If a custom file name is provided
