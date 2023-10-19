@@ -1,3 +1,4 @@
+import os
 from PyQt6.QtWidgets import QApplication, QWidget, QLineEdit, QTimeEdit, QPushButton, QVBoxLayout, QLabel, QRadioButton, QGroupBox, QMessageBox, QFileDialog
 from PyQt6.QtGui import QIcon
 import subprocess  # This module allows you to spawn new processes, connect to their input/output/error pipes, and obtain their return codes.
@@ -15,7 +16,7 @@ class YtDlpGui(QWidget):
         #Field for output folder. Give the option to click on a folder icon to choose 
         self.output_path_label = QLabel('Output Folder (optional):', self)
         self.output_path_input = QLineEdit(self)
-        self.output_path_input.setText('../../output/')  # Set default output folder
+        self.output_path_input.setText('./output/')  # Set default output folder
         self.browse_button = QPushButton( 'Folder Path', self)
         self.browse_button.clicked.connect(self.browse_output_folder)
 
@@ -109,59 +110,50 @@ class YtDlpGui(QWidget):
 
 
     def start_download(self):
-        url = self.url_input.text()
-        file_name = self.name_input.text()
-        start_time = self.start_time_input.text()  # Assume this is a QLineEdit
-        end_time = self.end_time_input.text()  # Assume this is a QLineEdit
-        output_name = self.name_input.text() or '%(title)s'  # Use the provided name or the video title
-        output_folder = self.output_path_input.text()
-        output_path = f'{output_folder}/{output_name}.%(ext)s'
-        if file_name:  # If a custom file name is provided
-            output_name = f"{file_name}.%(ext)s"
+        url = self.url_input.text().strip()
 
         if not url:
-            QMessageBox.critical(self, 'Url field empty', 'You must provide a valid url.')
-            return  # Exit the method early to avoid starting the download
-        
+            QMessageBox.critical(self, 'Url Field Empty', 'You must provide a valid URL.')
+            return
+
+        output_folder = self.output_path_input.text().strip()
+        output_name = self.name_input.text().strip() or '%(title)s'
+        output_path = os.path.join(output_folder, f"{output_name}.%(ext)s")
+            
+        format_option = ''
         if self.audio_button.isChecked():
+            format_option = '-x --audio-format '
             if self.mp3_button.isChecked():
-                command = f'yt-dlp -x --audio-format mp3 -o "{output_name}" {url}'
+                format_option += 'mp3'
             elif self.wav_button.isChecked():
-                command = f'yt-dlp -x --audio-format wav -o "{output_name}" {url}'
+                format_option += 'wav'
             elif self.flac_button.isChecked():
-                command = f'yt-dlp -x --audio-format flac -o "{output_name}" {url}'
+                format_option += 'flac'
             elif self.aac_button.isChecked():
-                command = f'yt-dlp -x --audio-format aac -o "{output_name}" {url}'
-        else: # download video format
-            video_format = 'webm'  # default to webm
-            if self.mp4_button.isChecked():
-                video_format = 'mp4'
-            command = f'yt-dlp --merge-output-format {video_format} -o "{output_name}" {url}'
+                format_option += 'aac'
+        elif self.video_button.isChecked():
+            video_format = 'webm' if self.webm_button.isChecked() else 'mp4'
+            format_option = f'--merge-output-format {video_format}'
 
-        if start_time or end_time:
-            start_parts = [int(part) for part in start_time.split(':')]
-            end_parts = [int(part) for part in end_time.split(':')]
+        command = f'yt-dlp {format_option} -o "{output_path}" {url}'
 
-            # Case 1: Both start and end times are the default (00:00:00), so download the whole video.
-            if start_time == '00:00:00' and end_time == '00:00:00':
-                pass  # No special postprocessor args needed.
-            # Case 2: Only one of them is 00:00:00, so either start from the beginning or go until the end.
-            elif start_time == '00:00:00' or end_time == '00:00:00':
-                pp_args = []
-                if start_time != '00:00:00':
-                    pp_args.append(f"-ss {start_time}")
-                if end_time != '00:00:00':
-                    pp_args.append(f"-to {end_time}")
-                command += f' --postprocessor-args "{" ".join(pp_args)}"'
-            # Case 3: Neither of them is 00:00:00, so ensure the start time is earlier than the end time.
-            elif start_parts >= end_parts:
-                QMessageBox.critical(self, 'Invalid Time Range', 'The start time must be earlier than the end time.')
-                return  # Exit the method early to avoid starting the download
-            else:
-                command += f' --postprocessor-args "-ss {start_time} -to {end_time}"'
+        start_time = self.start_time_input.text().strip()
+        end_time = self.end_time_input.text().strip()
 
-        
-        #export to folder
-        command += f' -o "{output_path}"'
-        # Run the yt-dlp command
-        subprocess.run(command, shell=True)
+        if start_time != '00:00:00' or end_time != '00:00:00':
+            pp_args = []
+            if start_time != '00:00:00':
+                pp_args.append(f"-ss {start_time}")
+            if end_time != '00:00:00':
+                pp_args.append(f"-to {end_time}")
+            command += f' --postprocessor-args "{" ".join(pp_args)}"'
+
+        # For Debugging
+        print("------------------------------")
+        print(f"Command: {command}")
+
+        try:
+            subprocess.run(command, shell=True, check=True)
+        except subprocess.CalledProcessError as e:
+            print(f"Error occurred: {e}")
+            QMessageBox.critical(self, 'Error', 'An error occurred while downloading.')
