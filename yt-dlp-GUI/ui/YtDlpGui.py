@@ -116,8 +116,6 @@ class YtDlpGui(QWidget):
         output_name = self.name_input.text() or '%(title)s'  # Use the provided name or the video title
         output_folder = self.output_path_input.text()
         output_path = f'{output_folder}/{output_name}.%(ext)s'
-        # Determine the output format based on the selected radio button
-        output_name = "%(title)s.%(ext)s"  # Default to the video's title
         if file_name:  # If a custom file name is provided
             output_name = f"{file_name}.%(ext)s"
 
