@@ -108,7 +108,6 @@ class YtDlpGui(QWidget):
         if folder:
             self.output_path_input.setText(folder)
 
-
     def start_download(self):
         url = self.url_input.text().strip()
 
@@ -117,9 +116,11 @@ class YtDlpGui(QWidget):
             return
 
         output_folder = self.output_path_input.text().strip()
+        os.makedirs(output_folder, exist_ok=True)  # Ensure directory exists
+
         output_name = self.name_input.text().strip() or '%(title)s'
         output_path = os.path.join(output_folder, f"{output_name}.%(ext)s")
-            
+
         format_option = ''
         if self.audio_button.isChecked():
             format_option = '-x --audio-format '
@@ -135,20 +136,28 @@ class YtDlpGui(QWidget):
             video_format = 'webm' if self.webm_button.isChecked() else 'mp4'
             format_option = f'--merge-output-format {video_format}'
 
-        command = f'yt-dlp {format_option} -o "{output_path}" {url}'
+        command = f'yt-dlp {format_option} -o "{output_path}" "{url}"'
 
         start_time = self.start_time_input.text().strip()
         end_time = self.end_time_input.text().strip()
 
         if start_time != '00:00:00' or end_time != '00:00:00':
+            start_parts = [int(part) for part in start_time.split(':')]
+            end_parts = [int(part) for part in end_time.split(':')]
+            
+            if start_parts > end_parts and end_time != '00:00:00':
+                QMessageBox.critical(self, 'Invalid Time Range', 'The start time must be earlier than the end time.')
+                return
+            
             pp_args = []
             if start_time != '00:00:00':
-                pp_args.append(f"-ss {start_time}")
+                pp_args.append(f'-ss {start_time}')
             if end_time != '00:00:00':
-                pp_args.append(f"-to {end_time}")
-            command += f' --postprocessor-args "{" ".join(pp_args)}"'
+                pp_args.append(f'-to {end_time}')
 
-        # For Debugging
+            if pp_args:
+                command += f' --postprocessor-args "{" ".join(pp_args)}"'
+
         print("------------------------------")
         print(f"Command: {command}")
 
