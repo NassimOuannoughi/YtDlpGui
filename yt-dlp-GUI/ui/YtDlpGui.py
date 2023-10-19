@@ -15,12 +15,9 @@ class YtDlpGui(QWidget):
         #Field for output folder. Give the option to click on a folder icon to choose 
         self.output_path_label = QLabel('Output Folder (optional):', self)
         self.output_path_input = QLineEdit(self)
-        self.output_path_input.setText('./output')  # Set default output folder
+        self.output_path_input.setText('../../output/')  # Set default output folder
         self.browse_button = QPushButton( 'Folder Path', self)
-        
         self.browse_button.clicked.connect(self.browse_output_folder)
-        
-
 
         # Radio buttons for media type selection
         self.audio_button = QRadioButton('Audio', self)
@@ -125,9 +122,9 @@ class YtDlpGui(QWidget):
         output_path = f'{output_folder}/{output_name}.%(ext)s'
 
         # Determine the output format based on the selected radio button
-        output_format = "%(title)s.%(ext)s"  # Default to the video's title
+        output_name = "%(title)s.%(ext)s"  # Default to the video's title
         if file_name:  # If a custom file name is provided
-            output_format = f"{file_name}.%(ext)s"
+            output_name = f"{file_name}.%(ext)s"
 
         if not url:
             QMessageBox.critical(self, 'Url field empty', 'You must provide a valid url.')
@@ -135,18 +132,18 @@ class YtDlpGui(QWidget):
         
         if self.audio_button.isChecked():
             if self.mp3_button.isChecked():
-                command = f'yt-dlp -x --audio-format mp3 -o "{output_format}" {url}'
+                command = f'yt-dlp -x --audio-format mp3 -o "{output_name}" {url}'
             elif self.wav_button.isChecked():
-                command = f'yt-dlp -x --audio-format wav -o "{output_format}" {url}'
+                command = f'yt-dlp -x --audio-format wav -o "{output_name}" {url}'
             elif self.flac_button.isChecked():
-                command = f'yt-dlp -x --audio-format flac -o "{output_format}" {url}'
+                command = f'yt-dlp -x --audio-format flac -o "{output_name}" {url}'
             elif self.aac_button.isChecked():
-                command = f'yt-dlp -x --audio-format aac -o "{output_format}" {url}'
+                command = f'yt-dlp -x --audio-format aac -o "{output_name}" {url}'
         else: # download video format
             video_format = 'webm'  # default to webm
             if self.mp4_button.isChecked():
                 video_format = 'mp4'
-            command = f'yt-dlp --merge-output-format {video_format} -o "{output_format}" {url}'
+            command = f'yt-dlp --merge-output-format {video_format} -o "{output_name}" {url}'
 
         if start_time or end_time:
             start_parts = [int(part) for part in start_time.split(':')]
@@ -155,7 +152,6 @@ class YtDlpGui(QWidget):
             # Case 1: Both start and end times are the default (00:00:00), so download the whole video.
             if start_time == '00:00:00' and end_time == '00:00:00':
                 pass  # No special postprocessor args needed.
-
             # Case 2: Only one of them is 00:00:00, so either start from the beginning or go until the end.
             elif start_time == '00:00:00' or end_time == '00:00:00':
                 pp_args = []
@@ -164,7 +160,6 @@ class YtDlpGui(QWidget):
                 if end_time != '00:00:00':
                     pp_args.append(f"-to {end_time}")
                 command += f' --postprocessor-args "{" ".join(pp_args)}"'
-
             # Case 3: Neither of them is 00:00:00, so ensure the start time is earlier than the end time.
             elif start_parts >= end_parts:
                 QMessageBox.critical(self, 'Invalid Time Range', 'The start time must be earlier than the end time.')
