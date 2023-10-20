@@ -13,6 +13,7 @@ class YtDlpGui(QWidget):
         # Fields for URL 
         self.url_label = QLabel('Enter YouTube URL:', self)
         self.url_input = QLineEdit(self)
+        self.url_input.setPlaceholderText('https://www.youtube.com/watch?v=dQw4w9WgXcQ')  # Set placeholder text
         #Field for output folder. Give the option to click on a folder icon to choose 
         self.output_path_label = QLabel('Output Folder (optional):', self)
         self.output_path_input = QLineEdit(self)
@@ -65,6 +66,7 @@ class YtDlpGui(QWidget):
         # Fields for File Name
         self.file_name = QLabel('Rename the file (optional):', self)
         self.name_input = QLineEdit(self)
+        self.name_input.setPlaceholderText('Custom Name')  # Set placeholder text
 
         # Time fields for starting end ending time
         self.start_time_label = QLabel('Start time (download from the start if not specified):', self)
