@@ -15,9 +15,10 @@ class YtDlpGui(QWidget):
         self.url_input = QLineEdit(self)
         self.url_input.setPlaceholderText('https://www.youtube.com/watch?v=dQw4w9WgXcQ')  # Set placeholder text
         #Field for output folder. Give the option to click on a folder icon to choose 
-        self.output_path_label = QLabel('Output Folder (optional):', self)
+        self.output_path_label = QLabel('Output Folder (optional, will download in "output" if not specified):', self)
         self.output_path_input = QLineEdit(self)
-        self.output_path_input.setText('./output/')  # Set default output folder
+        self.output_path_input.setPlaceholderText('C:/Downloads/...')  # Set placeholder text
+        #self.output_path_input.setText('./output/')  # Set default output folder
         self.browse_button = QPushButton( 'Folder Path', self)
         self.browse_button.clicked.connect(self.browse_output_folder)
 
@@ -66,7 +67,7 @@ class YtDlpGui(QWidget):
         # Fields for File Name
         self.file_name = QLabel('Rename the file (optional):', self)
         self.name_input = QLineEdit(self)
-        self.name_input.setPlaceholderText('Custom Name')  # Set placeholder text
+        self.name_input.setPlaceholderText('my-custom-name')  # Set placeholder text
 
         # Time fields for starting end ending time
         self.start_time_label = QLabel('Start time (download from the start if not specified):', self)
@@ -117,7 +118,7 @@ class YtDlpGui(QWidget):
             QMessageBox.critical(self, 'Url Field Empty', 'You must provide a valid URL.')
             return
 
-        output_folder = self.output_path_input.text().strip()
+        output_folder = self.output_path_input.text().strip() or './output/'  # Use default if field is empty
         os.makedirs(output_folder, exist_ok=True)  # Ensure directory exists
 
         output_name = self.name_input.text().strip() or '%(title)s'
@@ -160,8 +161,8 @@ class YtDlpGui(QWidget):
             if pp_args:
                 command += f' --postprocessor-args "{" ".join(pp_args)}"'
 
-        print("------------------------------")
-        print(f"Command: {command}")
+        #print("------------------------------") #debugging
+        #print(f"Command: {command}") #debugging
 
         try:
             subprocess.run(command, shell=True, check=True)
