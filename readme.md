@@ -49,38 +49,53 @@ python main.py
 
 ## TODO
 
+- **Error Handling:**
+    - Log errors to a file for debugging purposes.
 
-This is very much a work in progress, and I have plans to add the following features in the future:
+- **GUI Responsiveness:**
+    - Use a separate thread for the download process to keep the GUI responsive.
+
+- **User Feedback:**
+    - Provide feedback on download progress with a progress bar or text updates.
+
+- **Platform Independence:**
+    - Check file paths and platform-specific details for cross-platform compatibility.
+
+- **External Command Execution:**
+    - Check security for `subprocess.run` (possible issues with user input).
+
+- **User Input Validation:**
+    - Check and validate user inputs to avoid potential issues or security risks.
 
 - **Unit Tests:**
-Write unit tests to ensure the core functionality works as expected.
+    - Write unit tests.
 
 - **Executable Creation:**
-Create executables for Windows and Mac.
+    - Create executables for Windows and Mac.
 
 - **Design Improvements:**
-Make UI design improvements.
+    - Make UI design improvements.
 
-- **Thumbnail**
-Display thumbnail before download when applicable.
+- **Thumbnail:**
+    - Display thumbnail before download when applicable.
 
 - **Logging:**
-Implement logging to record events, transactions, or errors that may occur.
+    - Implement logging to record events, transactions, or errors that may occur.
 
 - **Configurations:**
-Save user preferences in a configuration file.
+    - Save user preferences in a configuration file.
 
 - **Automated Builds and Testing:**
-Set up a CI/CD pipeline for automated builds and testing.
+    - Set up a CI/CD pipeline for automated builds and testing.
 
-- **Question mark icon**
-Clicking on it shows an explanation of the field
+- **Question Mark Icon:**
+    - Add icon (Clicking on it shows an explanation of the field).
 
-- **Hide some options behind "Advanced parameters"**
-Clean the interface
+- **Hide Some Options Behind "Advanced Parameters":**
+    - Clean the interface.
 
-- **Add option to download videos from playlist**
-Self-explanatory
+- **Add Option to Download Videos from Playlist:**
+    - Self-explanatory.
 
 
 If you wish to contribute, please feel free to do so.
