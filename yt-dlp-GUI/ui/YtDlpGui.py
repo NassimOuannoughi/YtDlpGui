@@ -3,6 +3,7 @@ from PyQt6.QtWidgets import QApplication, QWidget, QLineEdit, QTimeEdit, QPushBu
 from PyQt6.QtGui import QIcon
 import subprocess  # This module allows you to spawn new processes, connect to their input/output/error pipes, and obtain their return codes.
 
+DEFAULT_OUTPUT_FOLDER = './output/'
 
 class YtDlpGui(QWidget):
     def __init__(self):
@@ -106,14 +107,13 @@ class YtDlpGui(QWidget):
         self.setGeometry(300, 300, 400, 200)
 
     def browse_output_folder(self):
-        options = QFileDialog.Option.ShowDirsOnly  # Notice the change here
+        options = QFileDialog.Option.ShowDirsOnly  
         folder = QFileDialog.getExistingDirectory(self, "Select Output Folder", self.output_path_input.text(), options=options)
         if folder:
             self.output_path_input.setText(folder)
 
     def is_connected(self):
         try:
-            # connect to the host -- tells us if the host is actually reachable
             socket.create_connection(("www.google.com", 80))
             return True
         except OSError:
@@ -132,7 +132,7 @@ class YtDlpGui(QWidget):
             QMessageBox.critical(self, 'Url Field Empty', 'You must provide a valid URL.')
             return
 
-        output_folder = self.output_path_input.text().strip() or './output/'  # Use default if field is empty
+        output_folder = self.output_path_input.text().strip() or DEFAULT_OUTPUT_FOLDER
         os.makedirs(output_folder, exist_ok=True)  # Ensure directory exists
 
         output_name = self.name_input.text().strip() or '%(title)s'
@@ -175,11 +175,8 @@ class YtDlpGui(QWidget):
             if pp_args:
                 command += f' --postprocessor-args "{" ".join(pp_args)}"'
 
-        #print("------------------------------") #debugging
-        #print(f"Command: {command}") #debugging
-
         try:
-            result = subprocess.run(command, shell=True, check=True, text=True, capture_output=True)  # Notice the additions here
+            result = subprocess.run(command, shell=True, check=True, text=True, capture_output=False)  
         except subprocess.CalledProcessError as e:
             error_message = str(e.stderr)  # Capture the error output
             if "' is not a valid URL." in error_message:
@@ -189,11 +186,9 @@ class YtDlpGui(QWidget):
             print(f"Error occurred: {e}")
 
 def run_app():
-    # To remove later, here for debug
     print("Code starts ...")
     app = QApplication([])
     ex = YtDlpGui()
     ex.show()
     app.exec()
-    # To remove later, here for debug
     print("Done !")
