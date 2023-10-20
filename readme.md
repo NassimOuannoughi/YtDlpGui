@@ -52,40 +52,37 @@ python main.py
 
 This is very much a work in progress, and I have plans to add the following features in the future:
 
-1. **Placeholder Text:**
-Add grey placeholder text in empty fields.
-
-2. **Invalid URL Handling:**
-Catch errors from yt-dlp and display error message for invalid URLs.
-
-3. **Unit Tests:**
+**Unit Tests:**
 Write unit tests to ensure the core functionality works as expected.
 
-4. **Executable Creation:**
+**Executable Creation:**
 Create executables for Windows and Mac.
 
-5. **Design Improvements:**
+**Design Improvements:**
 Make UI design improvements.
 
-6. **Logging:**
+**Thumbnail**
+Display thumbnail before download when applicable.
+
+**Logging:**
 Implement logging to record events, transactions, or errors that may occur.
 
-7. **Configurations:**
+**Configurations:**
 Save user preferences in a configuration file.
 
-8. **Error Handling for Network Issues:**
+**Error Handling for Network Issues:**
 Implement proper error handling for network-related issues.
 
-9. **Automated Builds and Testing:**
+9**Automated Builds and Testing:**
 Set up a CI/CD pipeline for automated builds and testing.
 
-10. **Question mark icon**
+**Question mark icon**
 Clicking on it shows an explanation of the field
 
-11. **Hide some options behind "Advanced parameters"**
+**Hide some options behind "Advanced parameters"**
 Clean the interface
 
-12. **Add option to download videos from playlist**
+**Add option to download videos from playlist**
 Self-explanatory
 
 If you wish to contribute, please feel free to do so.
