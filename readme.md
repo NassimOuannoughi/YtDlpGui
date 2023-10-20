@@ -82,7 +82,9 @@ Clean the interface
 - **Add option to download videos from playlist**
 Self-explanatory
 
+
 If you wish to contribute, please feel free to do so.
+
 
 ## License
 

@@ -187,3 +187,13 @@ class YtDlpGui(QWidget):
             else:
                 QMessageBox.critical(self, 'Error', 'An error occurred while downloading.')
             print(f"Error occurred: {e}")
+
+def run_app():
+    # To remove later, here for debug
+    print("Code starts ...")
+    app = QApplication([])
+    ex = YtDlpGui()
+    ex.show()
+    app.exec()
+    # To remove later, here for debug
+    print("Done !")
