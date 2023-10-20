@@ -79,6 +79,15 @@ Implement proper error handling for network-related issues.
 9. **Automated Builds and Testing:**
 Set up a CI/CD pipeline for automated builds and testing.
 
+10. **Question mark icon**
+Clicking on it shows an explanation of the field
+
+11. **Hide some options behind "Advanced parameters"**
+Clean the interface
+
+12. **Add option to download videos from playlist**
+Self-explanatory
+
 If you wish to contribute, please feel free to do so.
 
 ## License
