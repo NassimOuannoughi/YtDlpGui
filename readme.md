@@ -70,9 +70,6 @@ Implement logging to record events, transactions, or errors that may occur.
 - **Configurations:**
 Save user preferences in a configuration file.
 
-- **Error Handling for Network Issues:**
-Implement proper error handling for network-related issues.
-
 - **Automated Builds and Testing:**
 Set up a CI/CD pipeline for automated builds and testing.
 
