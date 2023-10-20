@@ -1,7 +1,8 @@
-import os, socket
+import os
 from PyQt6.QtWidgets import QApplication, QWidget, QLineEdit, QTimeEdit, QPushButton, QVBoxLayout, QLabel, QRadioButton, QGroupBox, QMessageBox, QFileDialog
 from PyQt6.QtGui import QIcon
 import subprocess  # This module allows you to spawn new processes, connect to their input/output/error pipes, and obtain their return codes.
+from ui.utils import is_connected
 
 DEFAULT_OUTPUT_FOLDER = './output/'
 
@@ -112,20 +113,15 @@ class YtDlpGui(QWidget):
         if folder:
             self.output_path_input.setText(folder)
 
-    def is_connected(self):
-        try:
-            socket.create_connection(("www.google.com", 80))
-            return True
-        except OSError:
-            pass
-        return False    
+
 
     def start_download(self):
+
         # check connection first
-        if not self.is_connected():
-            QMessageBox.critical(self, 'Please check your internet connection and try again.')
+        if not is_connected():
+            QMessageBox.critical(self, 'Network Error', 'Please check your internet connection and try again.')
             return
-        
+    
         url = self.url_input.text().strip()
 
         if not url:
@@ -186,9 +182,7 @@ class YtDlpGui(QWidget):
             print(f"Error occurred: {e}")
 
 def run_app():
-    print("Code starts ...")
     app = QApplication([])
     ex = YtDlpGui()
     ex.show()
     app.exec()
-    print("Done !")
