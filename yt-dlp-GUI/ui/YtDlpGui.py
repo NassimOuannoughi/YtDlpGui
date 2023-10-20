@@ -1,3 +1,10 @@
+"""
+YtDlpGui.py
+
+This module defines the YtDlpGui class, which implements a simple GUI for
+downloading audio or video from YouTube using yt-dlp.
+"""
+
 import os
 from PyQt6.QtWidgets import QApplication, QWidget, QLineEdit, QTimeEdit, QPushButton, QVBoxLayout, QLabel, QRadioButton, QGroupBox, QMessageBox, QFileDialog
 from PyQt6.QtGui import QIcon
@@ -7,11 +14,22 @@ from ui.utils import is_connected
 DEFAULT_OUTPUT_FOLDER = './output/'
 
 class YtDlpGui(QWidget):
+    """
+    A QWidget derived class that implements a simple GUI for downloading audio or
+    video from YouTube using yt-dlp.
+    """
+
     def __init__(self):
+        """
+        Initializes the user interface elements of the YtDlpGui instance.
+        """
         super().__init__()
         self.initUI()
 
     def initUI(self):
+        """
+        Initializes the user interface elements of the YtDlpGui instance.
+        """
         # Fields for URL 
         self.url_label = QLabel('Enter YouTube URL:', self)
         self.url_input = QLineEdit(self)
@@ -108,15 +126,18 @@ class YtDlpGui(QWidget):
         self.setGeometry(300, 300, 400, 200)
 
     def browse_output_folder(self):
+        """
+        Opens a file dialog for the user to select an output directory.
+        """
         options = QFileDialog.Option.ShowDirsOnly  
         folder = QFileDialog.getExistingDirectory(self, "Select Output Folder", self.output_path_input.text(), options=options)
         if folder:
             self.output_path_input.setText(folder)
 
-
-
     def start_download(self):
-
+        """
+        Initiates the download process based on the current state of the GUI.
+        """
         # check connection first
         if not is_connected():
             QMessageBox.critical(self, 'Network Error', 'Please check your internet connection and try again.')
@@ -182,6 +203,13 @@ class YtDlpGui(QWidget):
             print(f"Error occurred: {e}")
 
 def run_app():
+    """
+    Initializes and runs the QApplication instance.
+
+    This function creates a new QApplication instance, creates an instance of
+    the YtDlpGui class, initializes the GUI, shows the GUI, and then
+    enters the Qt event loop by calling app.exec().
+    """
     app = QApplication([])
     ex = YtDlpGui()
     ex.show()
