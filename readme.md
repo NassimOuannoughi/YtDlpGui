@@ -52,37 +52,37 @@ python main.py
 
 This is very much a work in progress, and I have plans to add the following features in the future:
 
-**Unit Tests:**
+- **Unit Tests:**
 Write unit tests to ensure the core functionality works as expected.
 
-**Executable Creation:**
+- **Executable Creation:**
 Create executables for Windows and Mac.
 
-**Design Improvements:**
+- **Design Improvements:**
 Make UI design improvements.
 
-**Thumbnail**
+- **Thumbnail**
 Display thumbnail before download when applicable.
 
-**Logging:**
+- **Logging:**
 Implement logging to record events, transactions, or errors that may occur.
 
-**Configurations:**
+- **Configurations:**
 Save user preferences in a configuration file.
 
-**Error Handling for Network Issues:**
+- **Error Handling for Network Issues:**
 Implement proper error handling for network-related issues.
 
-9**Automated Builds and Testing:**
+- **Automated Builds and Testing:**
 Set up a CI/CD pipeline for automated builds and testing.
 
-**Question mark icon**
+- **Question mark icon**
 Clicking on it shows an explanation of the field
 
-**Hide some options behind "Advanced parameters"**
+- **Hide some options behind "Advanced parameters"**
 Clean the interface
 
-**Add option to download videos from playlist**
+- **Add option to download videos from playlist**
 Self-explanatory
 
 If you wish to contribute, please feel free to do so.
