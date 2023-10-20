@@ -165,7 +165,11 @@ class YtDlpGui(QWidget):
         #print(f"Command: {command}") #debugging
 
         try:
-            subprocess.run(command, shell=True, check=True)
+            result = subprocess.run(command, shell=True, check=True, text=True, capture_output=True)  # Notice the additions here
         except subprocess.CalledProcessError as e:
+            error_message = str(e.stderr)  # Capture the error output
+            if "' is not a valid URL." in error_message:
+                QMessageBox.critical(self, 'Invalid URL', 'The provided URL is not valid. Please enter a valid URL.')
+            else:
+                QMessageBox.critical(self, 'Error', 'An error occurred while downloading.')
             print(f"Error occurred: {e}")
-            QMessageBox.critical(self, 'Error', 'An error occurred while downloading.')
