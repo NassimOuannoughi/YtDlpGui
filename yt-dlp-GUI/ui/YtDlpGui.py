@@ -7,11 +7,9 @@ downloading audio or video from YouTube using yt-dlp.
 
 import os
 from PyQt6.QtWidgets import QApplication, QWidget, QLineEdit, QTimeEdit, QPushButton, QVBoxLayout, QLabel, QRadioButton, QGroupBox, QMessageBox, QFileDialog
-from PyQt6.QtGui import QIcon
 import subprocess  # This module allows you to spawn new processes, connect to their input/output/error pipes, and obtain their return codes.
 from ui.utils import is_connected
-
-DEFAULT_OUTPUT_FOLDER = './output/'
+from ui.config import *
 
 class YtDlpGui(QWidget):
     """
@@ -33,12 +31,11 @@ class YtDlpGui(QWidget):
         # Fields for URL 
         self.url_label = QLabel('Enter YouTube URL:', self)
         self.url_input = QLineEdit(self)
-        self.url_input.setPlaceholderText('https://www.youtube.com/watch?v=dQw4w9WgXcQ')  # Set placeholder text
+        self.url_input.setPlaceholderText(DEFAULT_URL_PLACEHOLDER)  # Set placeholder text
         #Field for output folder. Give the option to click on a folder icon to choose 
         self.output_path_label = QLabel('Output Folder (optional, will download in "output" if not specified):', self)
         self.output_path_input = QLineEdit(self)
-        self.output_path_input.setPlaceholderText('C:/Downloads/...')  # Set placeholder text
-        #self.output_path_input.setText('./output/')  # Set default output folder
+        self.output_path_input.setPlaceholderText(DEFAULT_OUTPUT_PLACEHOLDER)  # Set placeholder text
         self.browse_button = QPushButton( 'Folder Path', self)
         self.browse_button.clicked.connect(self.browse_output_folder)
 
@@ -92,10 +89,10 @@ class YtDlpGui(QWidget):
         # Time fields for starting end ending time
         self.start_time_label = QLabel('Start time (download from the start if not specified):', self)
         self.start_time_input = QTimeEdit(self)        
-        self.start_time_input.setDisplayFormat("HH:mm:ss")
+        self.start_time_input.setDisplayFormat(DEFAULT_TIME_FORMAT)
         self.end_time_label = QLabel('End time (download until the end if not specified):', self)
         self.end_time_input = QTimeEdit(self)
-        self.end_time_input.setDisplayFormat("HH:mm:ss")
+        self.end_time_input.setDisplayFormat(DEFAULT_TIME_FORMAT)
 
         # Download button
         self.download_button = QPushButton('Download', self)
@@ -122,7 +119,7 @@ class YtDlpGui(QWidget):
         vbox.addWidget(self.download_button)
         
         self.setLayout(vbox)
-        self.setWindowTitle('YtDlpGUI')
+        self.setWindowTitle(DEFAULT_WINDOW_TITLE)
         self.setGeometry(300, 300, 400, 200)
 
     def browse_output_folder(self):
@@ -140,17 +137,17 @@ class YtDlpGui(QWidget):
         """
         # check connection first
         if not is_connected():
-            QMessageBox.critical(self, 'Network Error', 'Please check your internet connection and try again.')
+            QMessageBox.critical(self, NETWORK_ERROR_TITLE, 'Please check your internet connection and try again.')
             return
     
         url = self.url_input.text().strip()
 
         if not url:
-            QMessageBox.critical(self, 'Url Field Empty', 'You must provide a valid URL.')
+            QMessageBox.critical(self, URL_FIELD_EMPTY_TITLE, URL_FIELD_EMPTY_MESSAGE)
             return
 
         output_folder = self.output_path_input.text().strip() or DEFAULT_OUTPUT_FOLDER
-        os.makedirs(output_folder, exist_ok=True)  # Ensure directory exists
+        os.makedirs(output_folder, exist_ok=True)  # Check if directory exists
 
         output_name = self.name_input.text().strip() or '%(title)s'
         output_path = os.path.join(output_folder, f"{output_name}.%(ext)s")
@@ -175,18 +172,18 @@ class YtDlpGui(QWidget):
         start_time = self.start_time_input.text().strip()
         end_time = self.end_time_input.text().strip()
 
-        if start_time != '00:00:00' or end_time != '00:00:00':
+        if start_time != DEFAULT_TIME or end_time != DEFAULT_TIME:
             start_parts = [int(part) for part in start_time.split(':')]
             end_parts = [int(part) for part in end_time.split(':')]
             
-            if start_parts > end_parts and end_time != '00:00:00':
-                QMessageBox.critical(self, 'Invalid Time Range', 'The start time must be earlier than the end time.')
+            if start_parts > end_parts and end_time != DEFAULT_TIME:
+                QMessageBox.critical(self, INVALID_TIME_RANGE_TITLE, INVALID_TIME_RANGE_MESSAGE)
                 return
             
             pp_args = []
-            if start_time != '00:00:00':
+            if start_time != DEFAULT_TIME:
                 pp_args.append(f'-ss {start_time}')
-            if end_time != '00:00:00':
+            if end_time != DEFAULT_TIME:
                 pp_args.append(f'-to {end_time}')
 
             if pp_args:
@@ -197,9 +194,9 @@ class YtDlpGui(QWidget):
         except subprocess.CalledProcessError as e:
             error_message = str(e.stderr)  # Capture the error output
             if "' is not a valid URL." in error_message:
-                QMessageBox.critical(self, 'Invalid URL', 'The provided URL is not valid. Please enter a valid URL.')
+                QMessageBox.critical(self, 'Invalid URL', INVALID_URL_MESSAGE)
             else:
-                QMessageBox.critical(self, 'Error', 'An error occurred while downloading.')
+                QMessageBox.critical(self, DOWNLOAD_ERROR_TITLE, DOWNLOAD_ERROR_MESSAGE)
             print(f"Error occurred: {e}")
 
 def run_app():
