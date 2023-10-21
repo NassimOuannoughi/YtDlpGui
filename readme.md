@@ -1,6 +1,6 @@
 # YtDlpGUI
 
-A simple GUI wrapper for `yt-dlp`, created to make the process of downloading youtube videos easier and more secure than using "youtube to mp3" websites.
+A simple GUI wrapper for `yt-dlp`, created to make the process of downloading YouTube videos easier and more secure than using "youtube to mp3" websites.
 It is a practice project, I was curious about learning how to make GUI with PyQt6.
 
 ## Motivation
@@ -17,92 +17,89 @@ I created this project because, as a musician, I often download backing tracks t
 
 ## Installation
 
-Install the required Python packages from the requirements.txt file:
+1. **Installing Python**:
+    - Download and install Python from the official download page (https://www.python.org/downloads/). Make sure to check the box that says "Add Python to PATH" during the installation process.
 
-pip install -r requirements.txt
+2. **Downloading the Project**:
+    - Download the project files from the GitHub repository. You can do this by clicking the green "Code" button and selecting "Download ZIP." Extract the ZIP file to a location of your choice.
 
-Dependencies included in requirements.txt:
-
-    PyQt6==6.5.3
-    PyQt6-Qt6==6.5.3
-    PyQt6-sip==13.6.0
-    yt-dlp
-
-Run the main.py script to launch the application:
-
-python main.py
-
+3. **Running the Program**:
+On macOS (expected to work on Linux too but hasn't been tested):
+    - open the **Finder** and navigate to the folder where you extracted the project files.
+    - Right-click on the folder and select **New Terminal at Folder**. This will open a terminal window in the correct directory.
+    - In the terminal, make the `run.sh` script executable by running the command: `chmod +x run.sh`.
+    - Now, run the script by executing: `./run.sh`. This script will create a virtual environment, install the necessary dependencies, and launch the program.
+Note: I don't have access to a Windows machine. 
+You can run the program using main.py but to create a similar script you would need a run.bat file with the appropriate commands.
+I added this item to the todo list but don't know when I can complete it.
 
 ## Usage
 
-1. Enter the YouTube URL you wish to download.
+1. Enter the YouTube URL you want to download.
 2. (Optional) Specify an output folder. By default, media will be downloaded to the `./output` folder.
 3. Choose whether you want to download audio or video.
-4. Select the desired media format.
+4. Select the media format.
 5. (Optional) Rename the output file.
-6. (Optional) Set start and end times if you wish to download a specific segment of the video or audio. 
+6. (Optional) Set start and end times if you want to download a specific segment of the video.
    - If you don't specify start and end times, it will download the entire video. 
    - If only a start time is specified, it will download from the start time until the end. 
    - If only an end time is specified, it will download from the beginning until the specified end time.
 7. Click the "Download" button.
 
-
 ## TODO
 
-- **Error Handling:**
-    - Log errors to a file for debugging purposes.
+    Error Handling:
+        Log errors to a file for debugging purposes.
 
-- **GUI Responsiveness:**
-    - Use a separate thread for the download process to keep the GUI responsive.
+    GUI Responsiveness:
+        Use a separate thread for the download process to keep the GUI responsive.
 
-- **User Feedback:**
-    - Provide feedback on download progress with a progress bar or text updates.
+    User Feedback:
+        Provide feedback on download progress with a progress bar or text updates.
 
-- **Platform Independence:**
-    - Check file paths and platform-specific details for cross-platform compatibility.
+    Platform Independence:
+        Check file paths and platform-specific details for cross-platform compatibility.
 
-- **External Command Execution:**
-    - Check security for `subprocess.run` (possible issues with user input).
+    External Command Execution:
+        Check security for subprocess.run (possible issues with user input).
 
-- **User Input Validation:**
-    - Check and validate user inputs to avoid potential issues or security risks.
+    User Input Validation:
+        Check and validate user inputs to avoid potential issues or security risks.
 
-- **Unit Tests:**
-    - Write unit tests.
+    Unit Tests:
+        Write unit tests.
 
-- **Executable Creation:**
-    - Create executables for Windows and Mac.
+    Executable Creation:
+        Create executables for Windows and Mac.
 
-- **Design Improvements:**
-    - Make UI design improvements.
+    Design Improvements:
+        Make UI design improvements.
 
-- **Thumbnail:**
-    - Display thumbnail before download when applicable.
+    Thumbnail:
+        Display thumbnail before download when applicable.
 
-- **Logging:**
-    - Implement logging to record events, transactions, or errors that may occur.
+    Logging:
+        Implement logging to record events, transactions, or errors that may occur.
 
-- **Configurations:**
-    - Save user preferences in a configuration file.
+    Configurations:
+        Save user preferences in a configuration file.
 
-- **Automated Builds and Testing:**
-    - Set up a CI/CD pipeline for automated builds and testing.
+    Automated Builds and Testing:
+        Set up a CI/CD pipeline for automated builds and testing.
 
-- **Question Mark Icon:**
-    - Add icon (Clicking on it shows an explanation of the field).
+    Question Mark Icon:
+        Add icon (Clicking on it shows an explanation of the field).
 
-- **Hide Some Options Behind "Advanced Parameters":**
-    - Clean the interface.
+    Hide Some Options Behind "Advanced Parameters":
+        Clean the interface.
 
-- **Add Option to Download Videos from Playlist:**
-    - Self-explanatory.
+    Add Option to Download Videos from Playlist:
+        Self-explanatory.
 
+    Provide a .bat file to run a Windows script:
+        Self-explanatory.
 
-If you wish to contribute, please feel free to do so.
-
+If you want to contribute, please feel free to do so.
 
 ## License
-
-This project is licensed under the GNU General Public License (GPL) v3. 
-You are free to use, modify, and distribute this software, but you cannot use it for commercial purposes. 
-The author is not liable for any damages or issues arising from the use of this software.
+This project is licensed under the GNU General Public License (GPL) v3. You are free to use, modify, and distribute this software, but you cannot use it for commercial purposes. The author is not liable for any damages or issues arising from the use of this software.
