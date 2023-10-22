@@ -1,5 +1,4 @@
-from PyQt6.QtWidgets import QApplication
-from ui.YtDlpGui import YtDlpGui, run_app
+from ui.YtDlpGui import run_app
 
 if __name__ == '__main__':
     run_app()
