@@ -46,54 +46,8 @@ I added this item to the todo list but don't know when I can complete it.
    - If only an end time is specified, it will download from the beginning until the specified end time.
 7. Click the "Download" button.
 
-## TODO
-
-    Error Handling:
-        Log errors to a file for debugging purposes.
-
-    GUI Responsiveness:
-        Use a separate thread for the download process to keep the GUI responsive.
-
-    User Feedback:
-        Provide feedback on download progress with a progress bar or text updates.
-
-    Platform Independence:
-        Check file paths and platform-specific details for cross-platform compatibility.
-
-    External Command Execution:
-        Check security for subprocess.run (possible issues with user input).
-
-    User Input Validation:
-        Check and validate user inputs to avoid potential issues or security risks.
-
-    Unit Tests:
-        Write unit tests.
-
-    Executable Creation:
-        Create executables for Windows and Mac.
-
-    Design Improvements:
-        Make UI design improvements.
-
-    Logging:
-        Implement logging to record events, transactions, or errors that may occur.
-
-    Configurations:
-        Save user preferences in a configuration file.
-
-    Automated Builds and Testing:
-        Set up a CI/CD pipeline for automated builds and testing.
-
-    Question Mark Icon:
-        Add icon (Clicking on it shows an explanation of the field).
-
-    Add Option to Download Videos from Playlist:
-        Self-explanatory.
-
-    Provide a .bat file to run a Windows script:
-        Self-explanatory.
-
-If you want to contribute, please feel free to do so.
+## If you want to contribute
+Please feel free to do so.
 
 ## License
 This project is licensed under the GNU General Public License (GPL) v3. You are free to use, modify, and distribute this software, but you cannot use it for commercial purposes. The author is not liable for any damages or issues arising from the use of this software.
