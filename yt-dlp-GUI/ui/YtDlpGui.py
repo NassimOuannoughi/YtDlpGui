@@ -5,11 +5,54 @@ This module defines the YtDlpGui class, which implements a simple GUI for
 downloading audio or video from YouTube using yt-dlp.
 """
 
-import os
-from PyQt6.QtWidgets import QApplication, QWidget, QLineEdit, QTimeEdit, QPushButton, QVBoxLayout, QLabel, QRadioButton, QGroupBox, QMessageBox, QFileDialog
-import subprocess  # This module allows you to spawn new processes, connect to their input/output/error pipes, and obtain their return codes.
-from ui.utils import is_connected
-from ui.config import *
+import  os
+import  subprocess  # This module allows you to spawn new processes, connect to their input/output/error pipes, and obtain their return codes.
+import  requests
+from    PyQt6.QtWidgets import QApplication, QWidget, QLineEdit, QTimeEdit, QPushButton, QVBoxLayout, QLabel, QRadioButton, QGroupBox, QMessageBox, QFileDialog
+from    PyQt6.QtGui import QPixmap
+from    PyQt6.QtCore import QThread, pyqtSignal, Qt
+from    ui.utils import is_connected
+from    ui.config import *
+
+class ThumbnailDownloader(QThread):
+    """
+    A QThread derived class that initiates a separate thread to download
+    thumbnails from YouTube using yt-dlp. This ensures the thumbnail
+    retrieval process does not block the main application.
+    The class emits a signal with the downloaded thumbnail as a QPixmap
+    object once the thumbnail is successfully retrieved.
+    """
+    thumbnail_downloaded = pyqtSignal(QPixmap)
+
+    def __init__(self, url):
+        """
+        Initializes a new instance of the ThumbnailDownloader class, setting
+        up the necessary attributes for the thumbnail download process.
+        """
+        super().__init__()
+        self.url = url
+
+    def run(self):
+        """
+        Overrides the QThread.run method to define the actions to be taken 
+        when the thread is started. It constructs and executes a yt-dlp 
+        command to retrieve the thumbnail URL of the specified YouTube video, 
+        downloads the thumbnail image, and emits the thumbnail_downloaded 
+        signal with the downloaded thumbnail as a QPixmap object.
+
+        This method is automatically called upon starting the thread and 
+        ensures that the thumbnail download process occurs in a separate 
+        thread, preventing any blocking of the main application thread.
+        """
+        command = f'yt-dlp --skip-download --get-thumbnail "{self.url}"'
+        process = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+        stdout, stderr = process.communicate()
+        thumbnail_url = stdout.strip()
+        if thumbnail_url:
+            thumbnail_data = requests.get(thumbnail_url).content
+            pixmap = QPixmap()
+            pixmap.loadFromData(thumbnail_data)
+            self.thumbnail_downloaded.emit(pixmap)
 
 class YtDlpGui(QWidget):
     """
@@ -28,10 +71,17 @@ class YtDlpGui(QWidget):
         """
         Initializes the user interface elements of the YtDlpGui instance.
         """
+
         # Fields for URL 
         self.url_label = QLabel('Enter YouTube URL:', self)
         self.url_input = QLineEdit(self)
         self.url_input.setPlaceholderText(DEFAULT_URL_PLACEHOLDER)  # Set placeholder text
+        self.url_input.textChanged.connect(self.on_url_changed)
+        # Thumbnail
+        self.thumbnail_label = QLabel(self)
+        self.default_pixmap = QPixmap(DEFAULT_THUMBNAIL).scaled(200, 200, Qt.AspectRatioMode.KeepAspectRatio)
+        self.thumbnail_label.setPixmap(self.default_pixmap)
+
         #Field for output folder. Give the option to click on a folder icon to choose 
         self.output_path_label = QLabel('Output Folder (optional, will download in "output" if not specified):', self)
         self.output_path_input = QLineEdit(self)
@@ -111,6 +161,7 @@ class YtDlpGui(QWidget):
         vbox = QVBoxLayout()
         vbox.addWidget(self.url_label)
         vbox.addWidget(self.url_input)
+        vbox.addWidget(self.thumbnail_label)
         vbox.addWidget(self.output_path_label)
         vbox.addWidget(self.output_path_input)
         vbox.addWidget(self.browse_button)        
@@ -132,6 +183,18 @@ class YtDlpGui(QWidget):
         self.setWindowTitle(DEFAULT_WINDOW_TITLE)
         self.setGeometry(300, 300, 400, 200)
 
+    def on_url_changed(self, url):
+        if url.strip():
+            self.downloader = ThumbnailDownloader(url)
+            self.downloader.thumbnail_downloaded.connect(self.on_thumbnail_downloaded)
+            self.downloader.start()
+        else:
+            self.thumbnail_label.setPixmap(self.default_pixmap)
+
+    def on_thumbnail_downloaded(self, pixmap):
+        scaled_pixmap = pixmap.scaled(200, 200, Qt.AspectRatioMode.KeepAspectRatio)
+        self.thumbnail_label.setPixmap(scaled_pixmap)
+
     def toggle_advanced_options(self):
         """
         Toggles the visibility of the start and end time fields.
@@ -141,7 +204,7 @@ class YtDlpGui(QWidget):
         self.start_time_input.setHidden(not hidden)
         self.end_time_label.setHidden(not hidden)
         self.end_time_input.setHidden(not hidden)
-        
+
     def browse_output_folder(self):
         """
         Opens a file dialog for the user to select an output directory.

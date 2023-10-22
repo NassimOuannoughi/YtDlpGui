@@ -4,6 +4,7 @@
 # Default Placeholder Values
 DEFAULT_URL_PLACEHOLDER = 'https://www.youtube.com/watch?v=dQw4w9WgXcQ'  # Placeholder text for the URL input field
 DEFAULT_OUTPUT_PLACEHOLDER = 'C:/Downloads/...'  # Placeholder text for the output path input field
+DEFAULT_THUMBNAIL = "Assets/default-video-thumbnail.jpg"
 # Output Settings
 DEFAULT_OUTPUT_FOLDER = './output/'  # Default folder path for downloads if none is specified by the user
 # Time Settings

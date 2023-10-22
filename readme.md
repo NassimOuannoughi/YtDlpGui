@@ -75,9 +75,6 @@ I added this item to the todo list but don't know when I can complete it.
     Design Improvements:
         Make UI design improvements.
 
-    Thumbnail:
-        Display thumbnail before download when applicable.
-
     Logging:
         Implement logging to record events, transactions, or errors that may occur.
 
@@ -89,9 +86,6 @@ I added this item to the todo list but don't know when I can complete it.
 
     Question Mark Icon:
         Add icon (Clicking on it shows an explanation of the field).
-
-    Hide Some Options Behind "Advanced Parameters":
-        Clean the interface.
 
     Add Option to Download Videos from Playlist:
         Self-explanatory.
