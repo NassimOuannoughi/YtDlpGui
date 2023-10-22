@@ -86,6 +86,11 @@ class YtDlpGui(QWidget):
         self.name_input = QLineEdit(self)
         self.name_input.setPlaceholderText('my-custom-name')  # Set placeholder text
 
+        # Advanced Options:
+        # Start & End time
+        self.advanced_options_button = QPushButton('Advanced Options', self)
+        self.advanced_options_button.clicked.connect(self.toggle_advanced_options)
+
         # Time fields for starting end ending time
         self.start_time_label = QLabel('Start time (download from the start if not specified):', self)
         self.start_time_input = QTimeEdit(self)        
@@ -93,7 +98,11 @@ class YtDlpGui(QWidget):
         self.end_time_label = QLabel('End time (download until the end if not specified):', self)
         self.end_time_input = QTimeEdit(self)
         self.end_time_input.setDisplayFormat(DEFAULT_TIME_FORMAT)
-
+        # Initially hide the start and end time fields
+        self.start_time_label.setHidden(True)
+        self.start_time_input.setHidden(True)
+        self.end_time_label.setHidden(True)
+        self.end_time_input.setHidden(True)
         # Download button
         self.download_button = QPushButton('Download', self)
         self.download_button.clicked.connect(self.start_download)
@@ -111,7 +120,8 @@ class YtDlpGui(QWidget):
         vbox.addWidget(self.audio_format_group)  # Add the group box to the layout
         vbox.addWidget(self.video_format_group)
         vbox.addWidget(self.file_name)
-        vbox.addWidget(self.name_input)
+        vbox.addWidget(self.name_input)        
+        vbox.addWidget(self.advanced_options_button)
         vbox.addWidget(self.start_time_label)
         vbox.addWidget(self.start_time_input)
         vbox.addWidget(self.end_time_label)
@@ -122,6 +132,16 @@ class YtDlpGui(QWidget):
         self.setWindowTitle(DEFAULT_WINDOW_TITLE)
         self.setGeometry(300, 300, 400, 200)
 
+    def toggle_advanced_options(self):
+        """
+        Toggles the visibility of the start and end time fields.
+        """
+        hidden = self.start_time_label.isHidden()
+        self.start_time_label.setHidden(not hidden)
+        self.start_time_input.setHidden(not hidden)
+        self.end_time_label.setHidden(not hidden)
+        self.end_time_input.setHidden(not hidden)
+        
     def browse_output_folder(self):
         """
         Opens a file dialog for the user to select an output directory.
